@@ -62,27 +62,35 @@
     <h1>PHP Array Pagination</h1>
     <hr  />
       <?php
+
+        ini_set('display_errors','On');
+        error_reporting(E_ALL);
+
         // Include the pagination class
         include 'pagination.class.php';
-        // Create the pagination object
-        $pagination = new pagination;
         
         // some example data
-        foreach (range(1, 100) as $value) {
+        foreach (range(1, 200) as $value) {
           $products[] = array(
             'Product' => 'Product '.$value,
             'Price' => rand(100, 1000),
           );
         }
-        
+
         // If we have an array with items
         if (count($products)) {
+          // Create the pagination object
+          $pagination = new pagination($products, (isset($_GET['page']) ? $_GET['page'] : 1), 15);
+          // Decide if the first and last links should show
+          $pagination->setShowFirstAndLast(false);
+          // You can overwrite the default seperator
+          $pagination->setMainSeperator(' | ');
           // Parse through the pagination class
-          $productPages = $pagination->generate($products, 10);
+          $productPages = $pagination->getResults();
           // If we have items 
           if (count($productPages) != 0) {
             // Create the page numbers
-            echo $pageNumbers = '<div class="numbers">'.$pagination->links().'</div>';
+            echo $pageNumbers = '<div class="numbers">'.$pagination->getLinks($_GET).'</div>';
             // Loop through all the items in the array
             foreach ($productPages as $productArray) {
               // Show the information about the item

@@ -25,37 +25,66 @@
 
   class pagination
   {
-    var $page = 1; // Current Page
-    var $perPage = 10; // Items on each page, defaulted to 10
-    var $showFirstAndLast = false; // if you would like the first and last page options.
-    
-    function generate($array, $perPage = 10)
+    private $_properties = array();
+
+    public $_defaults = array(
+      'page' => 1,
+      'perPage' => 10 
+    );
+
+    public function __construct($array, $curPage = null, $perPage = null)
     {
-      // Assign the items per page variable
-      if (!empty($perPage))
-        $this->perPage = $perPage;
-      
+      $this->array   = $array;
+      $this->curPage = ($curPage == null ? $this->defaults['page']    : $curPage);
+      $this->perPage = ($perPage == null ? $this->defaults['perPage'] : $perPage);
+    }
+
+    public function __set($name, $value) 
+    { 
+      $this->_properties[$name] = $value;
+    } 
+
+    public function __get($name)
+    {
+      if (array_key_exists($name, $this->_properties)) {
+        return $this->_properties[$name];
+      }
+      return false;
+    }
+
+    public function setShowFirstAndLast($showFirstAndLast)
+    {
+        $this->_showFirstAndLast = $showFirstAndLast;
+    }
+
+    public function setMainSeperator($mainSeperator)
+    {
+      $this->mainSeperator = $mainSeperator;
+    }
+
+    public function getResults()
+    {
       // Assign the page variable
-      if (!empty($_GET['page'])) {
-        $this->page = $_GET['page']; // using the get method
+      if (empty($this->curPage) !== false) {
+        $this->page = $this->curPage; // using the get method
       } else {
         $this->page = 1; // if we don't have a page number then assume we are on the first page
       }
       
       // Take the length of the array
-      $this->length = count($array);
+      $this->length = count($this->array);
       
       // Get the number of pages
       $this->pages = ceil($this->length / $this->perPage);
       
       // Calculate the starting point 
-      $this->start  = ceil(($this->page - 1) * $this->perPage);
+      $this->start = ceil(($this->page - 1) * $this->perPage);
       
-      // Return the part of the array we have requested
-      return array_slice($array, $this->start, $this->perPage);
+      // return the portion of results
+      return array_slice($this->array, $this->start, $this->perPage);
     }
     
-    function links()
+    public function getLinks($params = array())
     {
       // Initiate the links array
       $plinks = array();
@@ -63,24 +92,20 @@
       $slinks = array();
       
       // Concatenate the get variables to add to the page numbering string
-      if (count($_GET)) {
-        $queryURL = '';
-        foreach ($_GET as $key => $value) {
-          if ($key != 'page') {
-            $queryURL .= '&'.$key.'='.$value;
-          }
-        }
+      $queryUrl = '';
+      if (!empty($params) === true) {
+        unset($params['page']);
+        $queryUrl = '&amp;'.http_build_query($params);
       }
       
       // If we have more then one pages
-      if (($this->pages) > 1)
-      {
+      if (($this->pages) > 1) {
         // Assign the 'previous page' link into the array if we are not on the first page
         if ($this->page != 1) {
-          if ($this->showFirstAndLast) {
-            $plinks[] = ' <a href="?page=1'.$queryURL.'">&laquo;&laquo; First </a> ';
+          if ($this->_showFirstAndLast) {
+            $plinks[] = ' <a href="?page=1'.$queryUrl.'">&laquo;&laquo; First </a> ';
           }
-          $plinks[] = ' <a href="?page='.($this->page - 1).$queryURL.'">&laquo; Prev</a> ';
+          $plinks[] = ' <a href="?page='.($this->page - 1).$queryUrl.'">&laquo; Prev</a> ';
         }
         
         // Assign all the page numbers & links to the array
@@ -88,22 +113,21 @@
           if ($this->page == $j) {
             $links[] = ' <a class="selected">'.$j.'</a> '; // If we are on the same page as the current item
           } else {
-            $links[] = ' <a href="?page='.$j.$queryURL.'">'.$j.'</a> '; // add the link to the array
+            $links[] = ' <a href="?page='.$j.$queryUrl.'">'.$j.'</a> '; // add the link to the array
           }
         }
-  
+
         // Assign the 'next page' if we are not on the last page
         if ($this->page < $this->pages) {
-          $slinks[] = ' <a href="?page='.($this->page + 1).$queryURL.'"> Next &raquo; </a> ';
-          if ($this->showFirstAndLast) {
-            $slinks[] = ' <a href="?page='.($this->pages).$queryURL.'"> Last &raquo;&raquo; </a> ';
+          $slinks[] = ' <a href="?page='.($this->page + 1).$queryUrl.'"> Next &raquo; </a> ';
+          if ($this->_showFirstAndLast) {
+            $slinks[] = ' <a href="?page='.($this->pages).$queryUrl.'"> Last &raquo;&raquo; </a> ';
           }
         }
         
         // Push the array into a string using any some glue
-        return implode(' ', $plinks).implode($this->implodeBy, $links).implode(' ', $slinks);
+        return implode(' ', $plinks).implode($this->mainSeperator, $links).implode(' ', $slinks);
       }
       return;
     }
   }
-?>
