@@ -2,36 +2,56 @@
 
   /************************************************************\
   *
-  *	  PHP Array Pagination Copyright 2007 - Derek Harvey
-  *	  www.lotsofcode.com
+  *   PHP Array Pagination Copyright 2007 - Derek Harvey
+  *   www.lotsofcode.com
   *
-  *	  This file is part of PHP Array Pagination .
+  *   This file is part of PHP Array Pagination .
   *
-  *	  PHP Array Pagination is free software; you can redistribute it and/or modify
-  *	  it under the terms of the GNU General Public License as published by
-  *	  the Free Software Foundation; either version 2 of the License, or
-  *	  (at your option) any later version.
+  *   PHP Array Pagination is free software; you can redistribute it and/or modify
+  *   it under the terms of the GNU General Public License as published by
+  *   the Free Software Foundation; either version 2 of the License, or
+  *   (at your option) any later version.
   *
-  *	  PHP Array Pagination is distributed in the hope that it will be useful,
-  *	  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  *	  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
-  *	  GNU General Public License for more details.
+  *   PHP Array Pagination is distributed in the hope that it will be useful,
+  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  *   GNU General Public License for more details.
   *
-  *	  You should have received a copy of the GNU General Public License
-  *	  along with PHP Array Pagination ; if not, write to the Free Software
-  *	  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA	02111-1307	USA
+  *   You should have received a copy of the GNU General Public License
+  *   along with PHP Array Pagination ; if not, write to the Free Software
+  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
   *
   \************************************************************/
 
   class pagination
   {
+
+    /**
+     * Properties array
+     * @var array   
+     * @access private 
+     */
     private $_properties = array();
 
+    /**
+     * Default configurations
+     * @var array  
+     * @access public 
+     */
     public $_defaults = array(
       'page' => 1,
       'perPage' => 10 
     );
 
+    /**
+     * Constructor
+     * 
+     * @param array $array   Array of results to be paginated
+     * @param int   $curPage The current page interger that should used
+     * @param int   $perPage The amount of items that should be show per page
+     * @return void    
+     * @access public  
+     */
     public function __construct($array, $curPage = null, $perPage = null)
     {
       $this->array   = $array;
@@ -39,11 +59,31 @@
       $this->perPage = ($perPage == null ? $this->defaults['perPage'] : $perPage);
     }
 
+    /**
+     * Global setter
+     * 
+     * Utilises the properties array
+     * 
+     * @param string $name  The name of the property to set
+     * @param string $value The value that the property is assigned
+     * @return void    
+     * @access public  
+     */
     public function __set($name, $value) 
     { 
       $this->_properties[$name] = $value;
     } 
 
+    /**
+     * Global getter
+     * 
+     * Takes a param from the properties array if it exists
+     * 
+     * @param string $name The name of the property to get
+     * @return mixed Either the property from the internal
+     * properties array or false if isn't set
+     * @access public  
+     */
     public function __get($name)
     {
       if (array_key_exists($name, $this->_properties)) {
@@ -52,16 +92,41 @@
       return false;
     }
 
+    /**
+     * Set the show first and last configuration
+     * 
+     * This will enable the "<< first" and "last >>" style
+     * links
+     * 
+     * @param boolean $showFirstAndLast True to show, false to hide.
+     * @return void    
+     * @access public  
+     */
     public function setShowFirstAndLast($showFirstAndLast)
     {
         $this->_showFirstAndLast = $showFirstAndLast;
     }
 
+    /**
+     * Set the main seperator character
+     * 
+     * By default this will implode an empty string
+     * 
+     * @param string $mainSeperator The seperator between the page numbers
+     * @return void    
+     * @access public  
+     */
     public function setMainSeperator($mainSeperator)
     {
       $this->mainSeperator = $mainSeperator;
     }
 
+    /**
+     * Get the result portion from the provided array 
+     * 
+     * @return array Reduced array with correct calculated offset 
+     * @access public 
+     */
     public function getResults()
     {
       // Assign the page variable
@@ -84,6 +149,14 @@
       return array_slice($this->array, $this->start, $this->perPage);
     }
     
+    /**
+     * Get the html links for the generated page offset
+     * 
+     * @param array $params A list of parameters (probably get/post) to
+     * pass around with each request
+     * @return mixed  Return description (if any) ...
+     * @access public 
+     */
     public function getLinks($params = array())
     {
       // Initiate the links array
