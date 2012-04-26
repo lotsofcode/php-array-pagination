@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>PHP array pagination class by lotsofcode</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/lotsofcode/php-array-pagination">Fork On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/lotsofcode/php-array-pagination/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/lotsofcode/php-array-pagination/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>PHP array pagination class</h1>
+          <p>PHP Array Paginator</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/lotsofcode">lotsofcode</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
+        </div>
+
+        <p>This is a basic script to take an array and and generate a paginated list of items. This is quite an obscure example because a real world example would probably include lots more data.</p>
+
+<p>I'd also like to say, if your working with databases then I would suggest using a database pagination script that uses limits etc to optimise the speed of the query etc. If your looking to paginate a small data set then this should be fine.</p>
+
+<p>Pretty simple setup:</p>
+
+<h3>Include the class:</h3>
+
+<pre><code>// Include the pagination class
+include 'pagination.class.php';
+</code></pre>
+
+<h3>Here i'm throwing in some test date (you will need to provide your own)</h3>
+
+<pre><code>// some example data
+foreach (range(1, 100) as $value) {
+  $products[] = array(
+  'Product' =&gt; 'Product '.$value,
+  'Price' =&gt; rand(100, 1000),
+  );
+}
+</code></pre>
+
+<h3>Then this is how to output of the page data and page numbers.</h3>
+
+<pre><code>// If we have an array with items
+if (count($products)) {
+    // Create the pagination object
+    $pagination = new pagination($products, (isset($_GET['page']) ? $_GET['page'] : 1), 15);
+    // Parse through the pagination class
+    $productPages = $pagination-&gt;getResults();
+    // If we have items 
+    if (count($productPages) != 0) {
+        // Create the page numbers
+        echo $pageNumbers = '&lt;div class="numbers"&gt;'.$pagination-&gt;getLinks().'&lt;/div&gt;';
+        // Loop through all the items in the array
+        foreach ($productPages as $productArray) {
+            // Show the information about the item
+            echo '&lt;p&gt;&lt;b&gt;'.$productArray['Product'].'&lt;/b&gt; &amp;nbsp; &amp;pound;'.$productArray['Price'].'&lt;/p&gt;';
+        }
+        // print out the page numbers beneath the results
+        echo $pageNumbers;
+    }
+}
+</code></pre>
+
+<p>There are two other configurations that currently exist:</p>
+
+<p>If you would like to show "&lt;&lt; first" and "last &gt;&gt;" links to take you to the first and last page.</p>
+
+<pre><code>$pagination-&gt;setShowFirstAndLast(true);
+</code></pre>
+
+<p>The default separator for the page numbers is an empty string, you can overwrite this to be anything you like.</p>
+
+<pre><code>$pagination-&gt;setMainSeperator(' | ');
+</code></pre>
+
+<p>It's pretty simple.</p>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-3968273-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
