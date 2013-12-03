@@ -4,67 +4,47 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>PHP array pagination class by lotsofcode</title>
+
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/respond.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!--[if lt IE 8]>
-    <link rel="stylesheet" href="stylesheets/ie.css">
-    <![endif]-->
+    <script src="javascripts/scale.fix.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
   <body>
-
-      <div id="header">
-        <nav>
-          <li class="fork"><a href="https://github.com/lotsofcode/php-array-pagination">Fork On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/lotsofcode/php-array-pagination/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/lotsofcode/php-array-pagination/tarball/master">TAR</a></li>
-          <li class="title">DOWNLOADS</li>
-        </nav>
-      </div><!-- end header -->
-
     <div class="wrapper">
+      <header>
+        <h1 class="header">PHP array pagination class</h1>
+        <p class="header">PHP Array Paginator</p>
 
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/lotsofcode/php-array-pagination/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/lotsofcode/php-array-pagination/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/lotsofcode/php-array-pagination">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/lotsofcode">lotsofcode</a></p>
+
+
+      </header>
       <section>
-
-<script type="text/javascript"><!--
-google_ad_client = "ca-pub-5888951508371997";
-/* php array pagination */
-google_ad_slot = "5943140122";
-google_ad_width = 728;
-google_ad_height = 90;
-//-->
-</script>
-<script type="text/javascript"
-src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-</script>
-
-        <div id="title">
-          <h1>PHP array pagination class</h1>
-          <p>PHP Array Paginator</p>
-          <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/lotsofcode">lotsofcode</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
-        </div>
-
         <p>This is a basic script to take an array and and generate a paginated list of items. This is quite an obscure example because a real world example would probably include lots more data.</p>
 
 <p>I'd also like to say, if your working with databases then I would suggest using a database pagination script that uses limits etc to optimise the speed of the query etc. If your looking to paginate a small data set then this should be fine.</p>
 
 <p>Pretty simple setup:</p>
 
-<h3>Include the class:</h3>
+<h3>
+<a name="include-the-class" class="anchor" href="#include-the-class"><span class="octicon octicon-link"></span></a>Include the class:</h3>
 
 <pre><code>// Include the pagination class
 include 'pagination.class.php';
 </code></pre>
 
-<h3>Here i'm throwing in some test date (you will need to provide your own)</h3>
+<h3>
+<a name="here-im-throwing-in-some-test-date-you-will-need-to-provide-your-own" class="anchor" href="#here-im-throwing-in-some-test-date-you-will-need-to-provide-your-own"><span class="octicon octicon-link"></span></a>Here i'm throwing in some test date (you will need to provide your own)</h3>
 
 <pre><code>// some example data
 foreach (range(1, 100) as $value) {
@@ -75,7 +55,8 @@ foreach (range(1, 100) as $value) {
 }
 </code></pre>
 
-<h3>Then this is how to output of the page data and page numbers.</h3>
+<h3>
+<a name="then-this-is-how-to-output-of-the-page-data-and-page-numbers" class="anchor" href="#then-this-is-how-to-output-of-the-page-data-and-page-numbers"><span class="octicon octicon-link"></span></a>Then this is how to output of the page data and page numbers.</h3>
 
 <pre><code>// If we have an array with items
 if (count($products)) {
@@ -112,10 +93,12 @@ if (count($products)) {
 
 <p>It's pretty simple.</p>
       </section>
-
+      <footer>
+        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
-              <script type="text/javascript">
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		          <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>
@@ -128,4 +111,3 @@ if (count($products)) {
 
   </body>
 </html>
-<!-- test comment -->
